@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from decision_tree import (
+from decision_tree.src.decision_tree import (
     Attribute,
     build_tree,
     fit_numeric_bins,

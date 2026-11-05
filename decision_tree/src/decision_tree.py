@@ -14,6 +14,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 
 @dataclass
 class Attribute:
@@ -307,7 +309,7 @@ def run(args: argparse.Namespace) -> float:
     correct = sum(predict(tree, row) == row[class_index] for row in testing)
     accuracy = correct / len(testing)
 
-    output_dir = args.output_dir or Path("results") / args.dataset.stem
+    output_dir = args.output_dir or PROJECT_ROOT / "results" / args.dataset.stem
     output_dir.mkdir(parents=True, exist_ok=True)
     write_arff(output_dir / "training_set.arff", dataset.relation, attributes, training)
     write_arff(output_dir / "testing_set.arff", dataset.relation, attributes, testing)
@@ -338,8 +340,8 @@ def main() -> int:
         "dataset",
         type=Path,
         nargs="?",
-        default=Path("soybean_modify.arff"),
-        help="Input ARFF file (default: soybean_modify.arff)",
+        default=PROJECT_ROOT / "decision_tree" / "data" / "soybean_modify.arff",
+        help="Input ARFF file (default: decision_tree/data/soybean_modify.arff)",
     )
     parser.add_argument("--train-fraction", type=float, default=0.7)
     parser.add_argument("--seed", type=int, default=42)
